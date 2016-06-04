@@ -7,11 +7,11 @@ Name:          libphonenumber-for-php
 Version:       %{version}
 Release:       %{release}.php%{php_version}%{?dist}
 Summary:       libphonenumber for PHP
-# See https://github.com/giggsey/libphonenumber-for-php/blob/master/LICENSE
+# See https://github.com/Enflick/libphonenumber-for-php/blob/master/LICENSE
 License:       Apache 2.0
 Group:         Development/Libraries
-URL:           https://github.com/giggsey/libphonenumber-for-php
-# Get the source files from https://github.com/giggsey/libphonenumber-for-php/tags
+URL:           https://github.com/Enflick/libphonenumber-for-php
+# Get the source files from https://github.com/Enflick/libphonenumber-for-php/tags
 Source:        %{name}-%{version}.tar.gz
 Buildroot:     %{_tmppath}/%{name}-%{version}-%{release}-root
 

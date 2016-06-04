@@ -3,12 +3,12 @@
     "type": "library",
     "description": "Unofficial PHP Port of Google's libphonenumber",
     "keywords": ["phonenumber", "libphonenumber", "mobile", "validation", "geocoding", "geolocation"],
-    "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+    "homepage": "https://github.com/Enflick/libphonenumber-for-php",
     "license": "Apache-2.0",
     "support": {
         "irc": "irc://irc.appliedirc.com/lobby",
-        "source": "https://github.com/giggsey/libphonenumber-for-php",
-        "issues": "https://github.com/giggsey/libphonenumber-for-php/issues"
+        "source": "https://github.com/Enflick/libphonenumber-for-php",
+        "issues": "https://github.com/Enflick/libphonenumber-for-php/issues"
     },
     "authors": [
         {
