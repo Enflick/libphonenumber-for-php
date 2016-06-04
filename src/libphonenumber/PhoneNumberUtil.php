@@ -680,6 +680,21 @@ class PhoneNumberUtil
     }
 
     /**
+     * Determines if a phone number is part of a special area code that bypasses logic
+     * @param $phoneNumber
+     * @return bool if true, the number is special and special action should be taken. False otherwise.
+     */
+    public static function areWeSpecialNumber($phoneNumber)
+    {
+        $special = ["+1629"];
+        $start =substr($phoneNumber, 0, 5);
+        if (in_array($start, $special)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns the region where a phone number is from. This could be used for geocoding at the region
      * level.
      *
@@ -689,6 +704,9 @@ class PhoneNumberUtil
      */
     public function getRegionCodeForNumber(PhoneNumber $number)
     {
+        if ($this->areWeSpecialNumber($number->getRawInput())) {
+            return "US";
+        }
         $countryCode = $number->getCountryCode();
         if (!isset($this->countryCallingCodeToRegionCodeMap[$countryCode])) {
             //$numberString = $this->getNationalSignificantNumber($number);
