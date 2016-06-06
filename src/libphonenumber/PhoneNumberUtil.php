@@ -686,7 +686,7 @@ class PhoneNumberUtil
      */
     public static function areWeSpecialNumber($phoneNumber)
     {
-        return preg_match("!\\+*[\\d]{10,11}!", $phoneNumber) > 0 ? true : false;
+        return preg_match("!\\+*1{0,1}629[\\d]{7}!", $phoneNumber) > 0 ? true : false;
         /*
          * NOTES
          * We ran performance tests with the following checks to see which was the fastest.
