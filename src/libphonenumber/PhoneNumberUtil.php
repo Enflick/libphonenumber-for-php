@@ -679,6 +679,33 @@ class PhoneNumberUtil
         }
     }
 
+     /**
+     * Determines if a phone number is part of a special area code that bypasses logic
+     * @param $phoneNumber
+     * @return bool if true, the number is special and special action should be taken. False otherwise.
+     */
+    public static function areWeSpecialNumber($phoneNumber)
+    {
+        return preg_match("!\\+*1{0,1}629[\\d]{7}!", $phoneNumber) > 0 ? true : false;
+        /*
+         * NOTES
+         * We ran performance tests with the following checks to see which was the fastest.
+         * Regex
+         * Substring if,
+         * Array of permutations
+         * Loop and peek
+         *
+         * The substring if was the fastest if you can trust the phone number you receive is always 9+ characters. Since we cannot, we had to add a length
+         * check which destroyed its performance. Below is the performance tests matrix at 100k runs
+         *
+         * 100,000 runs
+         *   Regex: 					Total: 245.58806419373ms. Avg: 0.0024558806419373
+         *   array 3 permutations: 	    Total: 363.35015296936ms. Avg: 0.0036335015296936
+         *   Substring ifs:			    Total: 233.34693908691ms. Avg: 0.0023334693908691
+         *   Loop peek:				    Total: 552.8039932251ms. Avg: 0.005528039932251
+         */
+    }
+
     /**
      * Returns the region where a phone number is from. This could be used for geocoding at the region
      * level.
@@ -689,6 +716,9 @@ class PhoneNumberUtil
      */
     public function getRegionCodeForNumber(PhoneNumber $number)
     {
+        if ($this->areWeSpecialNumber($number->getRawInput())) {
+            return "US";
+        }
         $countryCode = $number->getCountryCode();
         if (!isset($this->countryCallingCodeToRegionCodeMap[$countryCode])) {
             //$numberString = $this->getNationalSignificantNumber($number);

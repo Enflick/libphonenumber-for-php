@@ -3334,6 +3334,25 @@ class PhoneNumberUtilTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->phoneUtil->isMobileNumberPortableRegion(RegionCode::AE));
         $this->assertFalse($this->phoneUtil->isMobileNumberPortableRegion(RegionCode::BS));
     }
+
+    public function testAreWeSpecialNumberWhenExpectedShouldBeTrue()
+    {
+        $suffix = "5551234";
+        $allowed = ['+1629', '1629', '629'];
+        foreach ($allowed as $case) {
+            $this->assertEquals(true, PhoneNumberUtil::areWeSpecialNumber($case . $suffix), "$case failed");
+        }
+    }
+
+    public function testAreWeSpecialNumberWhenNotExpectedShouldBeFalse()
+    {
+        $suffix = "5551234";
+        $allowed = ['+1519', '1519', '519'];
+        foreach ($allowed as $case) {
+            $this->assertEquals(false, PhoneNumberUtil::areWeSpecialNumber($case . $suffix), "$case failed");
+        }
+    }
+
 }
 
 /* EOF */
