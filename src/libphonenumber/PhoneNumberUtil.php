@@ -2703,13 +2703,46 @@ class PhoneNumberUtil
      *                               and the number is not in international format (does not start
      *                               with +)
      */
+    public function enflickParse($numberToParse, $defaultRegion='ZZ', PhoneNumber $phoneNumber = null, $keepRawInput = false)
+    {
+        $number = $this->cleanPhoneNumber($numberToParse);
+        return $this->parse($number, $defaultRegion, $phoneNumber, $keepRawInput);
+    }
+    /**
+     * Parses a string and returns it as a phone number in proto buffer format. The method is quite
+     * lenient and looks for a number in the input text (raw input) and does not check whether the
+     * string is definitely only a phone number. To do this, it ignores punctuation and white-space,
+     * as well as any text before the number (e.g. a leading “Tel: ”) and trims the non-number bits.
+     * It will accept a number in any format (E164, national, international etc), assuming it can
+     * interpreted with the defaultRegion supplied. It also attempts to convert any alpha characters
+     * into digits if it thinks this is a vanity number of the type "1800 MICROSOFT".
+     *
+     * <p> This method will throw a {@link NumberParseException} if the number is not considered to
+     * be a possible number. Note that validation of whether the number is actually a valid number
+     * for a particular region is not performed. This can be done separately with {@link #isValidnumber}.
+     *
+     * @param string $numberToParse number that we are attempting to parse. This can contain formatting
+     *                          such as +, ( and -, as well as a phone number extension.
+     * @param string $defaultRegion region that we are expecting the number to be from. This is only used
+     *                          if the number being parsed is not written in international format.
+     *                          The country_code for the number in this case would be stored as that
+     *                          of the default region supplied. If the number is guaranteed to
+     *                          start with a '+' followed by the country calling code, then
+     *                          "ZZ" or null can be supplied.
+     * @param PhoneNumber|null $phoneNumber
+     * @param bool $keepRawInput
+     * @return PhoneNumber a phone number proto buffer filled with the parsed number
+     * @throws NumberParseException  if the string is not considered to be a viable phone number (e.g.
+     *                               too few or too many digits) or if no default region was supplied
+     *                               and the number is not in international format (does not start
+     *                               with +)
+     */
     public function parse($numberToParse, $defaultRegion, PhoneNumber $phoneNumber = null, $keepRawInput = false)
     {
         if ($phoneNumber === null) {
             $phoneNumber = new PhoneNumber();
         }
-        $number = $this->cleanPhoneNumber($numberToParse);
-        $this->parseHelper($number, $defaultRegion, $keepRawInput, true, $phoneNumber);
+        $this->parseHelper($numberToParse, $defaultRegion, $keepRawInput, true, $phoneNumber);
         return $phoneNumber;
     }
 
