@@ -2687,7 +2687,7 @@ class PhoneNumberUtil
      *                               and the number is not in international format (does not start
      *                               with +)
      */
-    public function enflickParse($numberToParse, $defaultRegion='ZZ', PhoneNumber $phoneNumber = null, $keepRawInput = false)
+    public function enflickParse($numberToParse, $defaultRegion=self::UNKNOWN_REGION, PhoneNumber $phoneNumber = null, $keepRawInput = false)
     {
         return $this->parse($numberToParse, $defaultRegion, $phoneNumber, $keepRawInput);
     }
